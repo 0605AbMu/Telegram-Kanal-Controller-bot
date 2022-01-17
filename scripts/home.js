@@ -13,6 +13,7 @@ Murojaat uchun Bosh Admin: @Munir_admin
     `).catch(e => { });
 })
 bot.on("new_chat_members", (msg) => {
+    
     msg.deleteMessage(msg.message.message_id).catch(e => { });
     if ((msg.chat.type == "group" || msg.chat.type == "supergroup")&&!groupData.readById(msg.chat.id)) {
         groupData.create({
@@ -87,6 +88,17 @@ bot.command("kanalga_ulash", msg => {
     setInterval(() => {
         return msg.deleteMessage().catch(e=>{})
     }, 30000);
+    if (!(msg.chat.type == "group" || msg.chat.type == "supergroup")) {
+        return msg.replyWithHTML("<b>Bu buyruq faqat guruh ichida Ishlaydi!</b>")
+            .then(res => {
+            setInterval(() => {
+                return msg.deleteMessage().catch(e => { });
+            }, 30000);
+        }).catch(e=>{})
+}
+
+
+
     msg.getChatMember(msg.from.id)
         .then(res => {
             if (res.status == "creator" || res.status == "administrator") {
@@ -114,9 +126,21 @@ bot.command("kanalga_ulash", msg => {
 })
 
 bot.command("kanalga_ulashni_ochirish", msg => {
+   
     setInterval(() => {
         return msg.deleteMessage().catch(e=>{})
     }, 30000);
+
+    if (!(msg.chat.type == "group" || msg.chat.type == "supergroup")) {
+        return msg.replyWithHTML("<b>Bu buyruq faqat guruh ichida Ishlaydi!</b>")
+            .then(res => {
+            setInterval(() => {
+                return msg.deleteMessage().catch(e => { });
+            }, 30000);
+        }).catch(e=>{})
+}
+
+
     if (msg.from.id != mainAdminId) {
         return msg.replyWithHTML("<b>Siz bosh admin emassiz!. Shu sabab bu funksiyani o'chira olmaysiz.\nMurojaat: @Munir_admin .</b>").catch(e => { });
     }
@@ -149,6 +173,15 @@ bot.command("kanalga_ulashni_ochirish", msg => {
 
 
 bot.on("message", (msg, next) => {
+    if (!userData.readById(msg.from.id)) {
+        userData.create({
+            __id: msg.from.id,
+            first_name: msg.from.first_name,
+            username: msg.from.username || "yo'q",
+            added_members: []
+    })
+    }
+
     msg.getChatMember(msg.from.id)
         .then(res => {
             telegram.getChatMember(channel, msg.from.id)
