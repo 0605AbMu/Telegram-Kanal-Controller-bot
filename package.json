@@ -1,0 +1,21 @@
+{
+  "name": "usta-admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "jsonfile": "^6.1.0",
+    "telegraf": "^3.38.0"
+  },
+  "engines": {
+    "node": "16.x"
+  }
+}
